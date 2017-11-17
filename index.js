@@ -92,6 +92,11 @@ class Transport { //jshint ignore:line
         });
         var opts = api.options;
         opts.alert_type = loglevel;
+
+        if (opts.useTextAsTitle) {
+          opts.title = text;
+        }
+
         //efficient way to check if object is empty or error
         if (data instanceof Error) {
             opts.text = text + (text.length ? ' | ' + data.stack : data.stack);
@@ -107,9 +112,6 @@ class Transport { //jshint ignore:line
         }
         if (opts.text.length > 4000) {
             opts.text = opts.text.substr(0, 4000);
-        }
-        if (opts.useTextAsTitle) {
-          opts.title = opts.text;
         }
         req.write(JSON.stringify(opts));
         req.end();
